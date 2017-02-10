@@ -172,14 +172,14 @@ layer {
 
 layer {
   name: "roi_pool_conv5"
-  type: "ROIPooling"
+  type: "Module"
   bottom: "conv5"
   bottom: "rois"
   top: "roi_pool_conv5"
-  roi_pooling_param {
-    pooled_w: 6
-    pooled_h: 6
-    spatial_scale: 0.0625 # 1/16
+  module_param {
+    module: "fasterrcnn"
+    type: "ROIPooling"
+    param_str: "{ 'pooled_w': 6, 'pooled_h': 6, 'spatial_scale': 0.0625 }"
   }
 }
 layer {
@@ -290,13 +290,18 @@ layer {
 }
 layer {
   name: "loss_bbox"
-  type: "SmoothL1Loss"
+  type: "Module"
   bottom: "bbox_pred"
   bottom: "bbox_targets"
   bottom: "bbox_inside_weights"
   bottom: "bbox_outside_weights"
   top: "bbox_loss"
   loss_weight: 1
+  module_param {
+    module: "fasterrcnn"
+    type: "SmoothL1Loss"
+    param_str: "{ 'sigma': 1 }"
+  }
 }
 
 #========= RPN ============

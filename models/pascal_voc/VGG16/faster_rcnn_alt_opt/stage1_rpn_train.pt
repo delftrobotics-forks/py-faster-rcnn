@@ -459,14 +459,18 @@ layer {
 
 layer {
   name: "rpn_loss_bbox"
-  type: "SmoothL1Loss"
+  type: "Module"
   bottom: "rpn_bbox_pred"
   bottom: "rpn_bbox_targets"
   bottom: 'rpn_bbox_inside_weights'
   bottom: 'rpn_bbox_outside_weights'
   top: "rpn_loss_bbox"
   loss_weight: 1
-  smooth_l1_loss_param { sigma: 3.0 }
+  module_param {
+    module: "fasterrcnn"
+    type: "SmoothL1Loss"
+    param_str: "{ 'sigma': 3 }"
+  }
 }
 
 #========= RCNN ============

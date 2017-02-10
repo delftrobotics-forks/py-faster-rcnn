@@ -223,14 +223,14 @@ layer {
 
 layer {
   name: "roi_pool5"
-  type: "ROIPooling"
+  type: "Module"
   bottom: "conv5"
   bottom: "rois"
   top: "pool5"
-  roi_pooling_param {
-    pooled_w: 6
-    pooled_h: 6
-    spatial_scale: 0.0625 # 1/16
+  module_param {
+    module: "fasterrcnn"
+    type: "ROIPooling"
+    param_str: "{ 'pooled_w': 6, 'pooled_h': 6, 'spatial_scale': 0.0625 }"
   }
 }
 layer {
